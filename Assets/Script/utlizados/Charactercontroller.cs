@@ -26,7 +26,7 @@ public class Charactercontroller : MonoBehaviour {
 	/// The jump force.
 	/// </summary>
 
-	public float jumpForce = 700f;
+	public float jumpForce = 500f;
 	bool first =false, MoveD = true, MoveI = false;
 	bool dobleJump = false;
 	float same;
@@ -56,13 +56,6 @@ public class Charactercontroller : MonoBehaviour {
 
 		// move = Input.GetAxis ("Horizontal");
 
-		 /* if (move > 0 && !facinRight)
-			flip ();
-		else if (move < 0 && facinRight)
-			flip ();*/
-	
-		 
-//Debug.Log("Velocidad en x "+rigi.velocity.x);
 		
 	}
 
@@ -73,28 +66,26 @@ public class Charactercontroller : MonoBehaviour {
 		if (coll.gameObject.tag == "Ground"){
 			grounded = true;
 			dobleJump = false;
-			Debug.Log ("ground true");
-		}else if (coll.gameObject.tag=="ParedD")
+		//	Debug.Log ("ground true");
+		}else if (coll.gameObject.tag=="Enemy")
 		{
-			Debug.Log ("Pared derecha");
-			}else if (coll.gameObject.tag=="ParedI")
+			grounded=true;
+			anim.SetBool("die", true);
+ 			
+			}else if (coll.gameObject.tag=="municion")
 		{
-			Debug.Log ("Pared Izquierda");
+				anim.SetBool("shoot", true);
 		}
 
 	}
 	void OnCollisionStay2D ( Collision2D coll){
 		if (coll.gameObject.tag=="Pared")
 		{
-			//Debug.Log ("Pared derecha");
-			jumpRigth= true;
-			jumpLeft = false;
+			
 
 		}else if (coll.gameObject.tag=="Pared")
 		{
-			//Debug.Log ("Pared Izquierda");
-			jumpLeft  = false;
-			jumpRigth = true;
+			
 		}			
 	}
 	void OnCollisionExit2D(Collision2D coll)  {
@@ -110,7 +101,7 @@ public class Charactercontroller : MonoBehaviour {
 	rigi.velocity = new Vector2 (move * maxSpeed, rigi.velocity.y);
 	
 	if (same.Equals( transform.position.x) && first){
-		Debug.Log("Esta quieto..  ");
+		//Debug.Log("Esta quieto..  ");
 		
 		
 		if(MoveI){
@@ -139,31 +130,27 @@ public class Charactercontroller : MonoBehaviour {
 
 
 	}
-	void flip()
-	{
-		facinRight = !facinRight;
-		Vector3 theScale = transform.localScale;
-		theScale.x *= -1;
-		transform.localScale = theScale;
-	}
 	
 	void  OnMouseDown() {
-       if((grounded && jumpRigth) ){
+		
+       if(( jumpRigth)  ){
+		   if(!dobleJump || grounded){
 			Debug.Log ("Saltar para derecha");
 			anim.SetBool ("Ground", false);
 			move = 0.9f;
 			rigi.AddForce (new Vector2 (0, jumpForce));
 			theScale.x =Mathf.Abs( transform.localScale.x);
 			transform.localScale = theScale;
-
-		}else if ((grounded && jumpLeft)){
+		   }
+		}else if ((jumpLeft) ){
+			if(!dobleJump|| grounded  ){
 			anim.SetBool ("Ground", false);
 			Debug.Log("Saltar para Izquierda");
 			move = -0.9f;
-		rigi.AddForce(new Vector2 (-5, jumpForce));
+			rigi.AddForce(new Vector2 (-5, jumpForce));
 			theScale.x = -Mathf.Abs(transform.localScale.x);
 			transform.localScale = theScale;
-
+			}
 		}
   if (!dobleJump && !grounded)
         dobleJump = true;
