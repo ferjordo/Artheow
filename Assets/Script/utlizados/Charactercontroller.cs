@@ -5,14 +5,16 @@ using UnityEngine;
 public class Charactercontroller : MonoBehaviour {
 	public float maxSpeed = 10f;
 	private Rigidbody2D rigi;
-	
 	bool facinRight = true;
 	float move = 0.9f;
-
-	/// <summary>
-	/// The grounded in the varible to make the player jump.
-	/// </summary> 
-	bool grounded =   false;
+	/// SHOOT ///
+	public Rigidbody2D stonePrefab;
+    public Transform canion;
+	bool shoot = false;
+	 float timer = 0f;
+     int waitingTime = 1;
+	 /// 
+	 bool grounded =   false;
 	bool jumpLeft = false;
 	bool jumpRigth = true;
 	public Transform groundCheck;
@@ -26,10 +28,11 @@ public class Charactercontroller : MonoBehaviour {
 	/// The jump force.
 	/// </summary>
 
-	public float jumpForce = 500f;
+	public float jumpForce = 200f;
 	bool first =false, MoveD = true, MoveI = false;
 	bool dobleJump = false;
 	float same;
+	bool alive= true;
 	Animator anim;
 	Collider2D collider;
 	Transform transform;
@@ -55,6 +58,7 @@ public class Charactercontroller : MonoBehaviour {
 		anim.SetFloat ("vSpeed", rigi.velocity.y);
 
 		// move = Input.GetAxis ("Horizontal");
+		
 
 		
 	}
@@ -69,12 +73,16 @@ public class Charactercontroller : MonoBehaviour {
 		//	Debug.Log ("ground true");
 		}else if (coll.gameObject.tag=="Enemy")
 		{
+			Destroy(gameObject, 1);
 			grounded=true;
 			anim.SetBool("die", true);
+			
  			
 			}else if (coll.gameObject.tag=="municion")
-		{
-				anim.SetBool("shoot", true);
+		{		shoot = true;
+				anim.SetBool("Shoot", true);
+						//Debug.Log ("municion");
+
 		}
 
 	}
@@ -127,6 +135,24 @@ public class Charactercontroller : MonoBehaviour {
 				MoveD = false;
 				MoveI = true;
 	}
+	if (shoot){
+			timer += Time.deltaTime;
+     		if((timer > waitingTime) && grounded){
+				 if(jumpLeft){
+		
+				Rigidbody2D stoneInstance;
+				stoneInstance = Instantiate(stonePrefab, canion.position, canion.rotation) as Rigidbody2D;
+				stoneInstance.AddForce(new Vector2 (-900, 0));
+				timer =0f;
+		}else if(jumpRigth){
+			
+				Rigidbody2D stoneInstance;
+				stoneInstance = Instantiate(stonePrefab, canion.position, canion.rotation) as Rigidbody2D;
+				stoneInstance.AddForce(new Vector2 (900, 0));
+				timer =0f;
+		}
+	 		}
+		}
 
 
 	}
@@ -135,7 +161,7 @@ public class Charactercontroller : MonoBehaviour {
 		
        if(( jumpRigth)  ){
 		   if(!dobleJump || grounded){
-			Debug.Log ("Saltar para derecha");
+			//Debug.Log ("Saltar para derecha");
 			anim.SetBool ("Ground", false);
 			move = 0.9f;
 			rigi.AddForce (new Vector2 (0, jumpForce));
@@ -145,7 +171,7 @@ public class Charactercontroller : MonoBehaviour {
 		}else if ((jumpLeft) ){
 			if(!dobleJump|| grounded  ){
 			anim.SetBool ("Ground", false);
-			Debug.Log("Saltar para Izquierda");
+			//Debug.Log("Saltar para Izquierda");
 			move = -0.9f;
 			rigi.AddForce(new Vector2 (-5, jumpForce));
 			theScale.x = -Mathf.Abs(transform.localScale.x);
