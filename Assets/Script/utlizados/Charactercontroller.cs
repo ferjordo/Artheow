@@ -15,6 +15,7 @@ public class Charactercontroller : MonoBehaviour {
      int waitingTime = 1;
 	 /// 
 	 bool grounded =   false;
+	 bool IsStop = false;
 	bool jumpLeft = false;
 	bool jumpRigth = true;
 	public Transform groundCheck;
@@ -52,9 +53,9 @@ public class Charactercontroller : MonoBehaviour {
 	
 	void FixedUpdate () {
 
-		//grounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, whatIsGround);
-		//Debug.Log (grounded);
+		
 		anim.SetBool ("Ground", grounded);
+		anim.SetBool("IsStop", IsStop);
 		anim.SetFloat ("vSpeed", rigi.velocity.y);
 
 		// move = Input.GetAxis ("Horizontal");
@@ -70,7 +71,6 @@ public class Charactercontroller : MonoBehaviour {
 		if (coll.gameObject.tag == "Ground"){
 			grounded = true;
 			dobleJump = false;
-		//	Debug.Log ("ground true");
 		}else if (coll.gameObject.tag=="Enemy")
 		{
 			Destroy(gameObject, 1);
@@ -83,25 +83,24 @@ public class Charactercontroller : MonoBehaviour {
 				anim.SetBool("Shoot", true);
 						//Debug.Log ("municion");
 
-		}
+		} else if (coll.gameObject.tag=="Pared")
+		{
+			IsStop = true;
+		}	
 
 	}
 	void OnCollisionStay2D ( Collision2D coll){
-		if (coll.gameObject.tag=="Pared")
-		{
-			
-
-		}else if (coll.gameObject.tag=="Pared")
-		{
-			
-		}			
+				
 	}
 	void OnCollisionExit2D(Collision2D coll)  {
 		if (coll.gameObject.tag == "Ground"){
 			grounded = false;
 
-			//Debug.Log ("ground false");
-		}
+		}if (coll.gameObject.tag=="Pared")
+		{
+			IsStop = false;
+		}	
+
 
 	}
 	void Update(){
@@ -110,8 +109,9 @@ public class Charactercontroller : MonoBehaviour {
 	
 	if (same.Equals( transform.position.x) && first){
 		//Debug.Log("Esta quieto..  ");
-		
-		
+		//rigi.velocity= new Vector2(0, 0);
+		//transform.position = new Vector2 (transform.position.x, transform.position.y);
+		//Debug.Log("Esta quieto.. ");
 		if(MoveI){
 			jumpRigth = true ;
 			jumpLeft= false;
@@ -123,13 +123,14 @@ public class Charactercontroller : MonoBehaviour {
 		}
 		
 	}else if (same > transform.position.x) {
-		//Debug.Log(same+ " > "+transform.position.x);
+				//Debug.Log("En movimiento... ");
+			
 				first=true;
 				same=transform.position.x;
 				 MoveD = true;
 				 MoveI = false;
 	}else if ( same < transform.position.x){
-		//Debug.Log(same+ " > "+transform.position.x);
+				//Debug.Log("En movimiento... ");
 				first=true;
 				same=transform.position.x;
 				MoveD = false;
@@ -160,8 +161,7 @@ public class Charactercontroller : MonoBehaviour {
 	void  OnMouseDown() {
 		
        if(( jumpRigth)  ){
-		   if(!dobleJump || grounded){
-			//Debug.Log ("Saltar para derecha");
+		   if(!dobleJump || grounded || IsStop){
 			anim.SetBool ("Ground", false);
 			move = 0.9f;
 			rigi.AddForce (new Vector2 (0, jumpForce));
@@ -169,7 +169,7 @@ public class Charactercontroller : MonoBehaviour {
 			transform.localScale = theScale;
 		   }
 		}else if ((jumpLeft) ){
-			if(!dobleJump|| grounded  ){
+			if(!dobleJump|| grounded || IsStop  ){
 			anim.SetBool ("Ground", false);
 			//Debug.Log("Saltar para Izquierda");
 			move = -0.9f;
