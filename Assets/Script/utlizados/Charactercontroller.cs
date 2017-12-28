@@ -74,19 +74,22 @@ public class Charactercontroller : MonoBehaviour {
 		}else if (coll.gameObject.tag=="Enemy")
 		{
 			Destroy(gameObject, 1);
+			move = -0.9f;
+			rigi.velocity = new Vector2 (0,0);
+			rigi.AddForce(new Vector2 (-2, 150f));
 			grounded=true;
 			anim.SetBool("die", true);
 			
  			
 			}else if (coll.gameObject.tag=="municion")
-		{		shoot = true;
+			{		
+				shoot = true;
 				anim.SetBool("Shoot", true);
-						//Debug.Log ("municion");
 
-		} else if (coll.gameObject.tag=="Pared")
-		{
-			IsStop = true;
-		}	
+			} else if (coll.gameObject.tag=="Pared")
+			{
+				IsStop = true;
+			}	
 
 	}
 	void OnCollisionStay2D ( Collision2D coll){
@@ -136,7 +139,7 @@ public class Charactercontroller : MonoBehaviour {
 				MoveD = false;
 				MoveI = true;
 	}
-	if (shoot){
+	if (shoot && grounded){
 			timer += Time.deltaTime;
      		if((timer > waitingTime) && grounded){
 				 if(jumpLeft){
