@@ -39,31 +39,36 @@ public class Charactercontroller : MonoBehaviour {
 	Transform transform;
 	  Vector3 theScale ;
 	// Use this for initialization
+
+	int numberShoot= 0;
 	void Start () {
 		
 		anim = GetComponent<Animator>();
 		rigi = GetComponent<Rigidbody2D> ();
-		//Follow = GetComponent<Rigidbody2D> ();
 		collider = GetComponent<Collider2D>();
 		transform = GetComponent<Transform>();
-	same =  transform.position.x - 1;
-		 theScale = transform.localScale;
+		same =  transform.position.x - 1;
+		theScale = transform.localScale;
 		
 	}
 	
 	void FixedUpdate () {
-
-		
+//grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround, 2f, 2f);
+		//Debug.Log(grounded);
 		anim.SetBool ("Ground", grounded);
 		anim.SetBool("IsStop", IsStop);
 		anim.SetFloat ("vSpeed", rigi.velocity.y);
+		anim.SetBool("Shoot", shoot);
+
 
 		// move = Input.GetAxis ("Horizontal");
 		
 
 		
 	}
-
+/*
+ PlayerPrefs.SetInt("Player Score", 10);
+ */
 
 	//////////////////////////////////////////  COLLISION   ///////////////////////////////////////////
 
@@ -73,7 +78,7 @@ public class Charactercontroller : MonoBehaviour {
 			dobleJump = false;
 		}else if (coll.gameObject.tag=="Enemy")
 		{
-			Destroy(gameObject, 1);
+			Destroy(gameObject, 1.5f);
 			move = -0.9f;
 			rigi.velocity = new Vector2 (0,0);
 			rigi.AddForce(new Vector2 (-2, 150f));
@@ -82,18 +87,15 @@ public class Charactercontroller : MonoBehaviour {
 			
  			
 			}else if (coll.gameObject.tag=="municion")
-			{		
+			{		//PlayerPrefs.SetInt("municion", 10);
 				shoot = true;
-				anim.SetBool("Shoot", true);
+				
 
 			} else if (coll.gameObject.tag=="Pared")
 			{
 				IsStop = true;
 			}	
 
-	}
-	void OnCollisionStay2D ( Collision2D coll){
-				
 	}
 	void OnCollisionExit2D(Collision2D coll)  {
 		if (coll.gameObject.tag == "Ground"){
@@ -148,20 +150,33 @@ public class Charactercontroller : MonoBehaviour {
 				stoneInstance = Instantiate(stonePrefab, canion.position, canion.rotation) as Rigidbody2D;
 				stoneInstance.AddForce(new Vector2 (-900, 0));
 				timer =0f;
+						numberShoot= numberShoot +1;
+
 		}else if(jumpRigth){
 			
 				Rigidbody2D stoneInstance;
 				stoneInstance = Instantiate(stonePrefab, canion.position, canion.rotation) as Rigidbody2D;
 				stoneInstance.AddForce(new Vector2 (900, 0));
 				timer =0f;
+						numberShoot= numberShoot +1;
+
 		}
 	 		}
+
+			  if (numberShoot > 3){
+				  shoot = false;
+				  numberShoot =0;
+				Debug.Log("SE acabaron al municiones");
+			  } 
+			  
 		}
 
 
 	}
 	
 	void  OnMouseDown() {
+		PlayerPrefs.DeleteAll();
+	//	Debug.Log(""+PlayerPrefs.GetInt("municion"));
 		
        if(( jumpRigth)  ){
 		   if(!dobleJump || grounded || IsStop){
