@@ -1,11 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class LoadScene : MonoBehaviour {
+public class Fireball : MonoBehaviour {
 
-	  
 	// Use this for initialization
 	void Start () {
 		
@@ -15,12 +13,10 @@ public class LoadScene : MonoBehaviour {
 	void Update () {
 		
 	}
-	
 	void OnCollisionEnter2D(Collision2D coll)  {
-		  if ((coll.gameObject.tag == "Player")||(coll.gameObject.tag == "killer")){
-			
-		SceneManager.LoadScene("Nivel1", LoadSceneMode.Single);
-			
+		if ((coll.gameObject.tag == "Player")||(coll.gameObject.tag == "killer")||(coll.gameObject.tag == "Ground")){
+		Destroy(gameObject);
 		}
+
 	}
 }

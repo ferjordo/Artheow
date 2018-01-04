@@ -76,8 +76,9 @@ public class Charactercontroller : MonoBehaviour {
 		if (coll.gameObject.tag == "Ground"){
 			grounded = true;
 			dobleJump = false;
-		}else if (coll.gameObject.tag=="Enemy")
-		{
+		}else if ((coll.gameObject.tag == "Player")||(coll.gameObject.tag == "killer")||(coll.gameObject.tag == "Enemy")){
+
+	
 			Destroy(gameObject, 1.5f);
 			move = -0.9f;
 			rigi.velocity = new Vector2 (0,0);
