@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Charactercontroller : MonoBehaviour {
 	public float maxSpeed = 10f;
@@ -41,6 +42,10 @@ public class Charactercontroller : MonoBehaviour {
 	// Use this for initialization
 
 	int numberShoot= 0;
+
+	float waitingTime2 = 1;
+	bool kill = false; 
+
 	void Start () {
 		
 		anim = GetComponent<Animator>();
@@ -79,13 +84,13 @@ public class Charactercontroller : MonoBehaviour {
 		}else if ((coll.gameObject.tag == "Player")||(coll.gameObject.tag == "killer")||(coll.gameObject.tag == "Enemy")){
 
 	
-			Destroy(gameObject, 1.5f);
+			Destroy(gameObject, 1f);
 			move = -0.9f;
 			rigi.velocity = new Vector2 (0,0);
 			rigi.AddForce(new Vector2 (-2, 150f));
 			grounded=true;
 			anim.SetBool("die", true);
-			
+kill=true;
  			
 			}else if (coll.gameObject.tag=="municion")
 			{		//PlayerPrefs.SetInt("municion", 10);
@@ -170,6 +175,13 @@ public class Charactercontroller : MonoBehaviour {
 				Debug.Log("SE acabaron al municiones");
 			  } 
 			  
+		}
+		if(kill){
+			timer+= Time.deltaTime;
+			if(timer >waitingTime2){
+		SceneManager.LoadScene("menu", LoadSceneMode.Single);
+
+			}
 		}
 
 
