@@ -19,7 +19,7 @@ public class LoadScene : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D coll)  {
 		  if ((coll.gameObject.tag == "Player")||(coll.gameObject.tag == "killer")){
 			
-		SceneManager.LoadScene("Nivel1", LoadSceneMode.Single);
+		//SceneManager.LoadScene("Nivel1", LoadSceneMode.Single);
 			
 		}
 	}

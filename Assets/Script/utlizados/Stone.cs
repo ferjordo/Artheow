@@ -1,16 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Stone : MonoBehaviour {
 
-	
 void Awake(){
 	//Destroy(gameObject, 2);
 }
 	// Use this for initialization
 	void Start () {
-		
+	//TxTmunicion.text= "Puntaje ";
 	}
 	
 	// Update is called once per frame
@@ -23,6 +23,7 @@ void Awake(){
 		Destroy(gameObject);
 		}else if (coll.gameObject.tag == "Ground"){
 		//Debug.Log ("Eliminar");
+		//TxTmunicion.text="Score: "+municion + 10;
 		Destroy(gameObject);
 		} 
 

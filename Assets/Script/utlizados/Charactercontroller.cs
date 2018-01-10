@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 
 public class Charactercontroller : MonoBehaviour {
 	public float maxSpeed = 10f;
@@ -40,11 +42,12 @@ public class Charactercontroller : MonoBehaviour {
 	Transform transform;
 	  Vector3 theScale ;
 	// Use this for initialization
-
-	int numberShoot= 0;
-
 	float waitingTime2 = 1;
 	bool kill = false; 
+	public Text TxTmunicion;
+	public int municion = 0;
+
+
 
 	void Start () {
 		
@@ -54,22 +57,17 @@ public class Charactercontroller : MonoBehaviour {
 		transform = GetComponent<Transform>();
 		same =  transform.position.x - 1;
 		theScale = transform.localScale;
+		TxTmunicion.text= "Pidras:  ";
+
 		
 	}
 	
 	void FixedUpdate () {
-//grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround, 2f, 2f);
-		//Debug.Log(grounded);
+
 		anim.SetBool ("Ground", grounded);
 		anim.SetBool("IsStop", IsStop);
 		anim.SetFloat ("vSpeed", rigi.velocity.y);
 		anim.SetBool("Shoot", shoot);
-
-
-		// move = Input.GetAxis ("Horizontal");
-		
-
-		
 	}
 /*
  PlayerPrefs.SetInt("Player Score", 10);
@@ -90,13 +88,14 @@ public class Charactercontroller : MonoBehaviour {
 			rigi.AddForce(new Vector2 (-2, 150f));
 			grounded=true;
 			anim.SetBool("die", true);
-kill=true;
+			kill=true;
  			
 			}else if (coll.gameObject.tag=="municion")
 			{		//PlayerPrefs.SetInt("municion", 10);
 				shoot = true;
-				
-
+				municion = municion + 10;
+				TxTmunicion.text =  " Piedras "+ municion;
+			
 			} else if (coll.gameObject.tag=="Pared")
 			{
 				IsStop = true;
@@ -119,10 +118,7 @@ kill=true;
 	rigi.velocity = new Vector2 (move * maxSpeed, rigi.velocity.y);
 	
 	if (same.Equals( transform.position.x) && first){
-		//Debug.Log("Esta quieto..  ");
-		//rigi.velocity= new Vector2(0, 0);
-		//transform.position = new Vector2 (transform.position.x, transform.position.y);
-		//Debug.Log("Esta quieto.. ");
+		
 		if(MoveI){
 			jumpRigth = true ;
 			jumpLeft= false;
@@ -156,7 +152,8 @@ kill=true;
 				stoneInstance = Instantiate(stonePrefab, canion.position, canion.rotation) as Rigidbody2D;
 				stoneInstance.AddForce(new Vector2 (-900, 0));
 				timer =0f;
-						numberShoot= numberShoot +1;
+				municion = municion -1;
+				TxTmunicion.text =  "Piedras: "+municion;
 
 		}else if(jumpRigth){
 			
@@ -164,15 +161,16 @@ kill=true;
 				stoneInstance = Instantiate(stonePrefab, canion.position, canion.rotation) as Rigidbody2D;
 				stoneInstance.AddForce(new Vector2 (900, 0));
 				timer =0f;
-						numberShoot= numberShoot +1;
+				municion = municion - 1;
+				TxTmunicion.text =  "Piedras: "+municion;
 
 		}
 	 		}
 
-			  if (numberShoot > 3){
+			  if ( municion < 1 ){
 				  shoot = false;
-				  numberShoot =0;
-				Debug.Log("SE acabaron al municiones");
+				  municion= 0;
+				  Debug.Log("Se acabaron al municiones");
 			  } 
 			  
 		}
