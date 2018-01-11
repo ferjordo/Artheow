@@ -10,6 +10,7 @@ public class Charactercontroller : MonoBehaviour {
 	private Rigidbody2D rigi;
 	bool facinRight = true;
 	float move = 0.9f;
+	
 	/// SHOOT ///
 	public Rigidbody2D stonePrefab;
     public Transform canion;
@@ -47,6 +48,9 @@ public class Charactercontroller : MonoBehaviour {
 	public Text TxTmunicion;
 	public int municion = 0;
 
+	public Text TxTDiamante;
+	public int diamante=0;
+
 
 
 	void Start () {
@@ -57,7 +61,8 @@ public class Charactercontroller : MonoBehaviour {
 		transform = GetComponent<Transform>();
 		same =  transform.position.x - 1;
 		theScale = transform.localScale;
-		TxTmunicion.text= "Pidras:  ";
+		TxTmunicion.text= "Pidras: 0 ";
+		TxTDiamante.text="Diamante: 0";
 
 		
 	}
@@ -99,7 +104,10 @@ public class Charactercontroller : MonoBehaviour {
 			} else if (coll.gameObject.tag=="Pared")
 			{
 				IsStop = true;
-			}	
+			}	else if (coll.gameObject.tag=="item"){
+				diamante = diamante +1;
+				TxTDiamante.text="Dimantes: "+diamante;
+			}
 
 	}
 	void OnCollisionExit2D(Collision2D coll)  {

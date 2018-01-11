@@ -18,11 +18,10 @@ void Awake(){
 		
 	}
 	void OnCollisionEnter2D(Collision2D coll)  {
-		if (coll.gameObject.tag == "Enemy"){
-		//Debug.Log ("Eliminar");
+		if ((coll.gameObject.tag == "Enemy") ||(coll.gameObject.tag == "item"))  {
+		
 		Destroy(gameObject);
 		}else if (coll.gameObject.tag == "Ground"){
-		//Debug.Log ("Eliminar");
 		//TxTmunicion.text="Score: "+municion + 10;
 		Destroy(gameObject);
 		} 
