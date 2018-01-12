@@ -4,23 +4,21 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LoadScene : MonoBehaviour {
+float timer= 0;
 
-	  
-	// Use this for initialization
-	void Start () {
-		
-	}
+	 public int scene; 
+	
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
-	
-	void OnCollisionEnter2D(Collision2D coll)  {
-		  if ((coll.gameObject.tag == "Player")||(coll.gameObject.tag == "killer")){
-			
-		//SceneManager.LoadScene("Nivel1", LoadSceneMode.Single);
-			
+		 timer+= Time.deltaTime;
+		if(timer>2f){
+					SceneManager.LoadScene(scene, LoadSceneMode.Single);
+					Debug.Log(" Cambair escena");
+
+
 		}
 	}
+	
+	
 }
