@@ -124,6 +124,8 @@ public class Charactercontroller : MonoBehaviour {
 	void Update(){
  	
 	rigi.velocity = new Vector2 (move * maxSpeed, rigi.velocity.y);
+
+
 	
 	if (same.Equals( transform.position.x) && first){
 		
@@ -185,7 +187,7 @@ public class Charactercontroller : MonoBehaviour {
 		if(kill){
 			timer+= Time.deltaTime;
 			if(timer >waitingTime2){
-		SceneManager.LoadScene("menu", LoadSceneMode.Single);
+		SceneManager.LoadScene("perdiste", LoadSceneMode.Single);
 
 			}
 		}
@@ -196,16 +198,19 @@ public class Charactercontroller : MonoBehaviour {
 	void  OnMouseDown() {
 		PlayerPrefs.DeleteAll();
 	//	Debug.Log(""+PlayerPrefs.GetInt("municion"));
-		
-       if(( jumpRigth)  ){
+		Debug.Log(" "+Input.mousePosition);
+
+       if(( Input.mousePosition.x > 250f)  ){
 		   if(!dobleJump || grounded || IsStop){
 			anim.SetBool ("Ground", false);
 			move = 0.9f;
 			rigi.AddForce (new Vector2 (0, jumpForce));
 			theScale.x =Mathf.Abs( transform.localScale.x);
 			transform.localScale = theScale;
+			jumpRigth=true;
+			jumpLeft=false;
 		   }
-		}else if ((jumpLeft) ){
+		}else if ((Input.mousePosition.x < 250f) ){
 			if(!dobleJump|| grounded || IsStop  ){
 			anim.SetBool ("Ground", false);
 			//Debug.Log("Saltar para Izquierda");
@@ -213,6 +218,8 @@ public class Charactercontroller : MonoBehaviour {
 			rigi.AddForce(new Vector2 (-5, jumpForce));
 			theScale.x = -Mathf.Abs(transform.localScale.x);
 			transform.localScale = theScale;
+			jumpLeft=true;
+			jumpRigth=false;
 			}
 		}
   if (!dobleJump && !grounded)

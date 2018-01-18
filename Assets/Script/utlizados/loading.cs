@@ -12,7 +12,7 @@ float timer= 0;
 	void Update () {
 		timer+= Time.deltaTime;
 		if(timer>3f){
-					SceneManager.LoadScene(1, LoadSceneMode.Single);
+					SceneManager.LoadScene(4, LoadSceneMode.Single);
 					Debug.Log(" CAmbair escena");
 
 
