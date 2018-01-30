@@ -11,6 +11,7 @@ public class Charactercontroller : MonoBehaviour {
 	bool facinRight = true;
 	float move = 0.9f;
 	
+	
 	/// SHOOT ///
 	public Rigidbody2D stonePrefab;
     public Transform canion;
@@ -26,6 +27,7 @@ public class Charactercontroller : MonoBehaviour {
 	float groundRadius = 0.2f;
 	public LayerMask whatIsGround;
 	//public Rigidbody2D Follow;
+	
 
 	public bool isTrigger; 
 
@@ -51,18 +53,33 @@ public class Charactercontroller : MonoBehaviour {
 	public Text TxTDiamante;
 	public int diamante=0;
 
+	 int stars= 0;
+	 int estrella= 0;
 
+	public GameObject cor1;
+	public GameObject cor2 ;
+	public GameObject cor3;
+	public AudioSource audio ;
+	public AudioSource coin;
+        
 
 	void Start () {
-		
+	
 		anim = GetComponent<Animator>();
 		rigi = GetComponent<Rigidbody2D> ();
 		collider = GetComponent<Collider2D>();
 		transform = GetComponent<Transform>();
 		same =  transform.position.x - 1;
 		theScale = transform.localScale;
-		TxTmunicion.text= "Pidras: 0 ";
-		TxTDiamante.text="Diamante: 0";
+		TxTmunicion.text= "00";
+		TxTDiamante.text="00";
+		stars =  PlayerPrefs.GetInt("star");
+		Debug.Log ("stars: "+stars);
+		
+		cor1.SetActive(false);
+		cor2.SetActive(false);
+		cor3.SetActive(false);
+		// audio = GetComponent<AudioSource>();
 
 		
 	}
@@ -99,14 +116,32 @@ public class Charactercontroller : MonoBehaviour {
 			{		//PlayerPrefs.SetInt("municion", 10);
 				shoot = true;
 				municion = municion + 10;
-				TxTmunicion.text =  " Piedras "+ municion;
+				TxTmunicion.text =  ""+ municion;
 			
 			} else if (coll.gameObject.tag=="Pared")
 			{
 				IsStop = true;
 			}	else if (coll.gameObject.tag=="item"){
+				
+				coin.Play();
 				diamante = diamante +1;
-				TxTDiamante.text="Dimantes: "+diamante;
+				TxTDiamante.text=""+diamante;
+			}else if (coll.gameObject.tag=="corona"){
+				estrella = estrella +1;
+			if(estrella==1)
+			{
+				cor1.SetActive(true);
+			}else if (estrella ==2){
+				cor2.SetActive(true);
+			}else if (estrella ==3){
+				cor3.SetActive(false);
+			}
+			
+
+				PlayerPrefs.SetInt("star", estrella);
+			} else if (coll.gameObject.tag=="Fin"){
+						SceneManager.LoadScene("estrellas", LoadSceneMode.Single);
+
 			}
 
 	}
@@ -163,7 +198,7 @@ public class Charactercontroller : MonoBehaviour {
 				stoneInstance.AddForce(new Vector2 (-900, 0));
 				timer =0f;
 				municion = municion -1;
-				TxTmunicion.text =  "Piedras: "+municion;
+				TxTmunicion.text =  ""+municion;
 
 		}else if(jumpRigth){
 			
@@ -172,7 +207,7 @@ public class Charactercontroller : MonoBehaviour {
 				stoneInstance.AddForce(new Vector2 (900, 0));
 				timer =0f;
 				municion = municion - 1;
-				TxTmunicion.text =  "Piedras: "+municion;
+				TxTmunicion.text =  ""+municion;
 
 		}
 	 		}
@@ -196,7 +231,9 @@ public class Charactercontroller : MonoBehaviour {
 	}
 	
 	void  OnMouseDown() {
-		PlayerPrefs.DeleteAll();
+		audio.Play();
+        //audio.Play(44100);
+		//PlayerPrefs.DeleteAll();
 	//	Debug.Log(""+PlayerPrefs.GetInt("municion"));
 		Debug.Log(" "+Input.mousePosition);
 

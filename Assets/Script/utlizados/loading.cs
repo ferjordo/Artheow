@@ -11,8 +11,8 @@ float timer= 0;
 	// Update is called once per frame
 	void Update () {
 		timer+= Time.deltaTime;
-		if(timer>3f){
-					SceneManager.LoadScene(4, LoadSceneMode.Single);
+		if(timer>2f){
+					SceneManager.LoadScene(3, LoadSceneMode.Single);
 					Debug.Log(" CAmbair escena");
 
 

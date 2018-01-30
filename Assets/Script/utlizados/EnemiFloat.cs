@@ -18,7 +18,6 @@ public class EnemiFloat : MonoBehaviour {
 		transform = GetComponent<Transform>();
 		rigi = GetComponent<Rigidbody2D>();
 		y = transform.position.y;
-		
 	}
 	
 	// Update is called once per frame
@@ -38,7 +37,7 @@ public class EnemiFloat : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D coll)  {
-		if (coll.gameObject.tag == "municion"){
+		if (coll.gameObject.tag == "piedra"){
 		//Debug.Log ("Eliminar");
 		Destroy(gameObject);
 		}
