@@ -127,6 +127,7 @@ public class Charactercontroller : MonoBehaviour {
 				diamante = diamante +1;
 				TxTDiamante.text=""+diamante;
 			}else if (coll.gameObject.tag=="corona"){
+				coin.Play();
 				estrella = estrella +1;
 			if(estrella==1)
 			{

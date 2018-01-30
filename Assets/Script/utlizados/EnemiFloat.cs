@@ -9,7 +9,7 @@ public class EnemiFloat : MonoBehaviour {
 
 	public Rigidbody2D stonePrefab;
     public Transform canion;
-     int waitingTime = 3;
+     int waitingTime = 2;
 	 float timer = 0f;
 	 float y = 0f;
 
@@ -30,7 +30,7 @@ public class EnemiFloat : MonoBehaviour {
 		if(timer > waitingTime){
 					Rigidbody2D stoneInstance;
 						stoneInstance = Instantiate(stonePrefab, canion.position, canion.rotation) as Rigidbody2D;
-						stoneInstance.AddForce(new Vector2 (-1000, 0));
+						stoneInstance.AddForce(new Vector2 (0, 1000));
 						timer =0f;
 			
 			}
