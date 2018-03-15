@@ -103,14 +103,14 @@ public class Charactercontroller : MonoBehaviour {
 			dobleJump = false;
 		}else if ((coll.gameObject.tag == "Player")||(coll.gameObject.tag == "killer")||(coll.gameObject.tag == "Enemy")){
 
-	
+			kill=true;
 			Destroy(gameObject, 1f);
 			move = -0.9f;
 			rigi.velocity = new Vector2 (0,0);
 			rigi.AddForce(new Vector2 (-2, 150f));
 			grounded=true;
 			anim.SetBool("die", true);
-			kill=true;
+			
  			
 			}else if (coll.gameObject.tag=="municion")
 			{		//PlayerPrefs.SetInt("municion", 10);
